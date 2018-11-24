@@ -1,0 +1,261 @@
+		<!DOCTYPE html>
+<html>
+    <head>
+    	<script type="text/javascript" src="js/jquery.min.js"></script>
+        <script src="js/mqttws31.js"></script>
+       <script src="js/steelseries-min.js">
+     
+       </script>
+        <meta charset="utf-8">
+               
+		</head>
+						
+		<div style="position: absolute; width: 230px; height: 400 px; top: 10px; left: 25px; background-color:hsla(9, 100%, 64%, 0.95); color: #fff; padding: 15px;z-index: 2;">
+      <center><i>C.T.Gral.Manuel Álvarez Moreno.</i></center>
+                    <hr>
+						        <canvas id="canvasMulti1"></canvas>
+                    <canvas id="canvasMulti2"></canvas>
+                    <canvas id="canvasMulti3"></canvas>
+                    <canvas id="canvasMulti4"></canvas>
+                    <canvas id="canvasMulti5"></canvas>
+                     <canvas id="canvasMulti6"></canvas>
+                    <canvas id="canvasMulti7"></canvas>
+                    <canvas id="canvasMulti8"></canvas>
+                    <canvas id="canvasMulti9"></canvas>
+                    <canvas id="canvasMulti10"></canvas>
+                     <i><small>Ing. Hugo @. Breceda R.</small></i>
+                 
+             
+            </div>
+
+</div>
+<script >
+    var scroll = false;
+    var pot_act_u1_gam;
+    var pot_act_u2_gam;
+    var pot_act_u3_gam;
+    var pot_act_u4_gam;
+    var pot_act_u5_gam;
+    var pot_act_u6_gam;
+    var pot_act_u7_gam;
+    var pot_act_u8_gam;
+    var pot_act_u9_gam;
+    var pot_act_u10_gam;
+    var mqtt_conection=false;
+     var datos;
+   
+
+
+            var client = new Messaging.Client("test.mosquitto.org",8080,
+              "myclientid_" + parseInt(Math.random() * 100, 10));
+
+    client.onConnectionLost = function (responseObject) {
+       //alert("connection lost: " + responseObject.errorMessage);
+     alert("Error de Conexion ");
+          setTimeout(recarga, 10000);
+         
+        
+
+    };
+
+    client.onMessageArrived = function (message) {
+
+         datos=Array(message.payloadString);
+        datos =datos[0].split(','); 
+         
+    pot_act_u1_gam.setValue((datos[11]/1));
+    pot_act_u2_gam.setValue((datos[12]/10));
+    pot_act_u3_gam.setValue((datos[13]/10));
+    pot_act_u4_gam.setValue((datos[14]/10));
+    pot_act_u5_gam.setValue((datos[15]/1));
+    pot_act_u6_gam.setValue((datos[16]/10));
+    pot_act_u7_gam.setValue((datos[17]/10));
+    pot_act_u8_gam.setValue((datos[18]/10));
+    pot_act_u9_gam.setValue((datos[19]/100));
+    pot_act_u10_gam.setValue((datos[20]/100));
+      
+    };
+
+     var options = {
+        timeout: 3,
+        onSuccess: function () {
+            client.subscribe('esp3', {qos: 2});
+           mqtt_conection=true;        
+                   },
+        onFailure: function (message) {
+         
+            mqtt_conection=false; 
+            setTimeout(recarga, 10000);
+        
+
+        }
+    };
+    		
+		    function recarga(){ location.reload();}
+	   
+            function init() {
+
+        
+  pot_act_u1_gam = new steelseries.DisplayMulti('canvasMulti1', {
+                            width: 220,
+                            height: 55,
+                            unitString: "    MW ",
+                            unitStringVisible: true,
+                            headerString: "Potencia Bruta U1.",
+                            headerStringVisible: true,
+                            detailString: "Valor Anterior: ",
+                            detailStringVisible: true,
+                            linkOldValue: false,
+                            oldValue: 99.9
+                            });
+        pot_act_u2_gam = new steelseries.DisplayMulti('canvasMulti2', {
+                            width: 220,
+                            height: 55,
+                            unitString: "    MW ",
+                            unitStringVisible: true,
+                            headerString: "Potencia Bruta U2.",
+                            headerStringVisible: true,
+                            detailString: "Valor Anterior: ",
+                            detailStringVisible: true,
+                            linkOldValue: false,
+                            oldValue: 99.9
+                            });
+        pot_act_u3_gam= new steelseries.DisplayMulti('canvasMulti3', {
+                            width: 220,
+                            height: 55,
+                            unitString: "    MW",
+                            unitStringVisible: true,
+                            headerString: "Potencia Bruta U3.",
+                            headerStringVisible: true,
+                            detailString: "Valor Anterior: ",
+                            detailStringVisible: true,
+                            linkOldValue: false,
+                            oldValue: 99.9
+                            });
+        pot_act_u4_gam =  new steelseries.DisplayMulti('canvasMulti4', {
+                            width: 220,
+                            height: 55,
+                            unitString: "    MW ",
+                            unitStringVisible: true,
+                            headerString: "Potencia Bruta U4.",
+                            headerStringVisible: true,
+                            detailString: "Valor Anterior: ",
+                            detailStringVisible: true,
+                            linkOldValue: false,
+                            oldValue: 99.9
+                            });
+
+        pot_act_u5_gam =  new steelseries.DisplayMulti('canvasMulti5', {
+                            width: 220,
+                            height: 55,
+                            unitString: "    MW ",
+                            unitStringVisible: true,
+                            headerString: "Potencia Bruta U5.",
+                            headerStringVisible: true,
+                            detailString: "Valor Anterior: ",
+                            detailStringVisible: true,
+                            linkOldValue: false,
+                            oldValue: 99.9
+                            });
+     
+    pot_act_u6_gam =  new steelseries.DisplayMulti('canvasMulti6', {
+                            width: 220,
+                            height: 55,
+                            unitString: "    MW ",
+                            unitStringVisible: true,
+                            headerString: "Potencia Bruta U6.",
+                            headerStringVisible: true,
+                            detailString: "Valor Anterior: ",
+                            detailStringVisible: true,
+                            linkOldValue: false,
+                            oldValue: 99.9
+                            });
+     pot_act_u7_gam =  new steelseries.DisplayMulti('canvasMulti7', {
+                            width: 220,
+                            height: 55,
+                            unitString: "    MW ",
+                            unitStringVisible: true,
+                            headerString: "Potencia Bruta U7.",
+                            headerStringVisible: true,
+                            detailString: "Valor Anterior: ",
+                            detailStringVisible: true,
+                            linkOldValue: false,
+                            oldValue: 99.9
+                            });
+      pot_act_u8_gam =  new steelseries.DisplayMulti('canvasMulti8', {
+                            width: 220,
+                            height: 55,
+                            unitString: "    MW ",
+                            unitStringVisible: true,
+                            headerString: "Potencia Bruta U8.",
+                            headerStringVisible: true,
+                            detailString: "Valor Anterior: ",
+                            detailStringVisible: true,
+                            linkOldValue: false,
+                            oldValue: 99.9
+                            });
+       pot_act_u9_gam =  new steelseries.DisplayMulti('canvasMulti9', {
+                            width: 220,
+                            height: 55,
+                            unitString: "    MW ",
+                            unitStringVisible: true,
+                            headerString: "Potencia Bruta U9.",
+                            headerStringVisible: true,
+                            detailString: "Valor Anterior: ",
+                            detailStringVisible: true,
+                            linkOldValue: false,
+                            oldValue: 99.9
+                            });
+        pot_act_u10_gam =  new steelseries.DisplayMulti('canvasMulti10', {
+                            width: 220,
+                            height: 55,
+                            unitString: "    MW ",
+                            unitStringVisible: true,
+                            headerString: "Potencia Bruta U10.",
+                            headerStringVisible: true,
+                            detailString: "Valor Anterior: ",
+                            detailStringVisible: true,
+                            linkOldValue: false,
+                            oldValue: 99.9
+                            });
+    
+         client.connect(options);
+
+   setInterval (function(){
+ 
+
+
+if (mqtt_conection==true){  
+             pot_act_u1_gam.setLcdColor(steelseries.LcdColor.BLUE);
+             pot_act_u2_gam.setLcdColor(steelseries.LcdColor.BLUE);
+             pot_act_u3_gam.setLcdColor(steelseries.LcdColor.BLUE);
+             pot_act_u4_gam.setLcdColor(steelseries.LcdColor.BLUE);
+             pot_act_u5_gam.setLcdColor(steelseries.LcdColor.BLUE);
+             pot_act_u6_gam.setLcdColor(steelseries.LcdColor.BLUE);
+             pot_act_u7_gam.setLcdColor(steelseries.LcdColor.BLUE);
+             pot_act_u8_gam.setLcdColor(steelseries.LcdColor.BLUE);
+             pot_act_u9_gam.setLcdColor(steelseries.LcdColor.BLUE);
+             pot_act_u10_gam.setLcdColor(steelseries.LcdColor.BLUE);
+          }
+         else if (mqtt_conection==true){  
+          pot_act_u1_gam.setLcdColor(steelseries.LcdColor.GREEY);
+             pot_act_u2_gam.setLcdColor(steelseries.LcdColor.GREEY);
+             pot_act_u3_gam.setLcdColor(steelseries.LcdColor.GREEY);
+             pot_act_u4_gam.setLcdColor(steelseries.LcdColor.GREEY);
+             pot_act_u5_gam.setLcdColor(steelseries.LcdColor.GREEY);
+             pot_act_u6_gam.setLcdColor(steelseries.LcdColor.GREEY);
+             pot_act_u7_gam.setLcdColor(steelseries.LcdColor.GREEY);
+             pot_act_u8_gam.setLcdColor(steelseries.LcdColor.GREEY);
+             pot_act_u9_gam.setLcdColor(steelseries.LcdColor.GREEY);
+             pot_act_u10_gam.setLcdColor(steelseries.LcdColor.GREEY);
+            
+          }
+        
+  },10000);
+    }
+                        </script>
+                        <body onload='init()' background="img/logo.png"> 
+
+
+  </body>
+</html>
